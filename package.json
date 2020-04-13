@@ -1,0 +1,15 @@
+{
+  "name": "covid-19_tracker_graph",
+  "version": "1.0.0",
+  "description": "Graph covid-19 time series per country",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "covid-19",
+    "nodejs"
+  ],
+  "author": "Javier Cruz",
+  "license": "ISC"
+}
