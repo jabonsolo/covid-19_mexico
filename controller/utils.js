@@ -19,13 +19,98 @@ async function getData() {
     return data
 }
 
+async function getTop10() {
+    let data = await getData();
+    let chart = {}
+
+    let topCountries = []
+    let i = 0;
+    for (let key in data)
+    {
+        let confirmed = Math.max.apply(Math, 
+            data[key].map( (o) => 
+            { 
+                return o.confirmed;
+            }));
+
+        topCountries[i] = {
+            country: key,
+            confirmed
+        };
+        i+=1;
+    }
+    
+    topCountries= topCountries.sort(function(a, b) {
+        return b.confirmed - a.confirmed;
+    })
+
+    
+      //topCountries = topCountries.slice(10)
+    console.log(topCountries.slice(0,10))
+}
+
 async function getChart(country) {
     let data = await getData();
-    if (data[country]) {
-        return data[country];
+    let chart = {}
+
+    if(data[country])
+    {
+        return data[country]
+    } 
+
+    return chart;
+}
+
+async function generateData() {
+    const data = await getChart('Mexico')
+    let chart = {}
+
+
+    chart.date = data.map(({ date }) => date)
+    chart.confirmed = data.map(({ confirmed }) => confirmed)
+    chart.deaths = data.map(({ deaths }) => deaths)
+    chart.recovered = data.map(({ recovered }) => recovered)
+
+    const index = chart.confirmed.findIndex(element => element == 1) -1;
+
+    chart.date = chart.date.slice(index);
+    chart.confirmed = chart.confirmed.slice(index);
+    chart.deaths = chart.deaths.slice(index);
+    chart.recovered = chart.recovered.slice(index);
+
+    chart.active = []
+    chart.confirmedDiff = []
+    chart.recoveredDiff = []
+    chart.deathsDiff = []
+
+
+    for (let key in chart.confirmed) {
+            chart.active[key] = chart.confirmed[key] - chart.deaths[key] - chart.recovered[key]
+            if(key == 0)
+            {
+                chart.confirmedDiff[key] = 0
+                chart.recoveredDiff[key] = 0
+                chart.deathsDiff[key] = 0
+            }
+            else{
+                if(chart.confirmed[key] - chart.confirmed[key-1] < 0)
+                    chart.confirmedDiff[key] = 0;
+                else
+                    chart.confirmedDiff[key] = chart.confirmed[key] - chart.confirmed[key-1];
+                
+                if(chart.recovered[key] - chart.recovered[key-1] < 0)
+                    chart.recoveredDiff[key] = 0;
+                else
+                    chart.recoveredDiff[key] = chart.recovered[key] - chart.recovered[key-1];
+
+                if(chart.deaths[key] - chart.deaths[key-1] < 0)
+                    chart.deathsDiff[key] = 0;
+                else
+                    chart.deathsDiff[key] = chart.deaths[key] - chart.deaths[key-1];
+            }
     }
 
-    return [];
+    return chart;
 }
 
 async function aggregate() {
@@ -65,5 +150,7 @@ module.exports = {
     getData,
     getChart,
     aggregate,
+    generateData,
+    getTop10,
     data
 }

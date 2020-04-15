@@ -1,17 +1,48 @@
 <%- include ('_header') -%>
 
     <h1>Casos de coronavirus en Mexico</h1>
-        
-    <canvas id="myChart" width="400" height="400"></canvas>
+
+    <table>
+        <thead>
+            <tr>
+                <th></th>
+                <th>Confirmados</th>
+                <th>Activos</th>
+                <th>Recuperados</th>
+                <th>Muertes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th>Total</th>
+                <th><%- data.confirmed[data.confirmed.length - 1] %></th>
+                <th><%- data.active[data.active.length - 1] %></th>
+                <th><%- data.recovered[data.recovered.length - 1] %></th>
+                <th><%- data.deaths[data.deaths.length - 1] %></th>
+            </tr>
+            <tr>
+                <th><%- data.date[data.date.length - 1]%></th>
+                <th><%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
+                <th></th>
+                <th><%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
+                <th><%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
+            </tr>
+        </tbody>
+    </table>
+    
+    <canvas id="dailyChart" width="400" height="400"></canvas>
+    <canvas id="aggregatedChart" width="400" height="400"></canvas>
+    
+
     <script>
-        var ctx = document.getElementById('myChart');
+        var ctx = document.getElementById('aggregatedChart');
         var myChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: <%- JSON.stringify(date); %>,
+                labels: <%- JSON.stringify(data.date); %>,
                 datasets: [{
                     label: 'Confirmed',
-                    data: <%= JSON.stringify(confirmed); %>,
+                    data: <%= JSON.stringify(data.confirmed); %>,
                     backgroundColor: [
                         'rgba(87, 146, 223, 0.2)',
                     ],
@@ -22,7 +53,7 @@
                 },
                 {
                     label: 'Active',
-                    data: <%= JSON.stringify(active); %>,
+                    data: <%= JSON.stringify(data.active); %>,
                     backgroundColor: [
                         'rgba(170, 89, 242, 0.2)',
                     ],
@@ -33,7 +64,7 @@
                 },
                 {
                     label: 'Recovered',
-                    data: <%= JSON.stringify(recovered); %>,
+                    data: <%= JSON.stringify(data.recovered); %>,
                     backgroundColor: [
                         'rgba(97, 179, 102, 0.2)',
                     ],
@@ -44,7 +75,7 @@
                 },
                 {
                     label: 'Deaths',
-                    data: <%= JSON.stringify(deaths); %>,
+                    data: <%= JSON.stringify(data.deaths); %>,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                     ],
@@ -56,6 +87,73 @@
                 ]
             },
             options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Total de casos COVID-19 en México',
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+
+        var ctx2 = document.getElementById('dailyChart');
+        var myChart = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: <%- JSON.stringify(data.date); %>,
+                datasets: [{
+                    label: 'Confirmed',
+                    data: <%= JSON.stringify(data.confirmedDiff); %>,
+                    backgroundColor: [
+                        'rgba(87, 146, 223, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(87, 146, 223, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'Recovered',
+                    data: <%= JSON.stringify(data.recoveredDiff); %>,
+                    backgroundColor: [
+                        'rgba(97, 179, 102, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(97, 179, 102, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'Deaths',
+                    data: <%= JSON.stringify(data.deathsDiff); %>,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 3
+                }
+                ]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Casos diarios COVID-19 en México',
+                },
                 scales: {
                     yAxes: [{
                         ticks: {
