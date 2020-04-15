@@ -2,14 +2,24 @@
   "name": "covid-19_tracker_graph",
   "version": "1.0.0",
   "description": "Graph covid-19 time series per country",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
   },
   "keywords": [
     "covid-19",
     "nodejs"
   ],
   "author": "Javier Cruz",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "chart.js": "^2.9.3",
+    "ejs": "^3.0.2",
+    "express": "^4.17.1",
+    "node-fetch": "^2.6.0",
+    "path": "^0.12.7",
+    "vue": "^2.6.11",
+    "vue-cli": "^2.9.6"
+  }
 }

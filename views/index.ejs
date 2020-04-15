@@ -1,0 +1,71 @@
+<%- include ('_header') -%>
+
+    <h1>Welcome to Node.js app</h1>
+        
+    <canvas id="myChart" width="400" height="400"></canvas>
+    <script>
+        var ctx = document.getElementById('myChart');
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: <%- JSON.stringify(date); %>,
+                datasets: [{
+                    label: 'Confirmed',
+                    data: <%= JSON.stringify(confirmed); %>,
+                    backgroundColor: [
+                        'rgba(87, 146, 223, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(87, 146, 223, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'Active',
+                    data: <%= JSON.stringify(active); %>,
+                    backgroundColor: [
+                        'rgba(170, 89, 242, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(170, 89, 242, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'Recovered',
+                    data: <%= JSON.stringify(recovered); %>,
+                    backgroundColor: [
+                        'rgba(97, 179, 102, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(97, 179, 102, 1)',
+                    ],
+                    borderWidth: 3
+                },
+                {
+                    label: 'Deaths',
+                    data: <%= JSON.stringify(deaths); %>,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                    ],
+                    borderWidth: 3
+                }
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
+<%- include ('_footer') -%>
