@@ -2,37 +2,42 @@
 
     <h1>Casos de coronavirus en Mexico</h1>
 
-    <table>
-        <thead>
+    <table class="table">
+        <thead class="thead-dark">
             <tr>
-                <th></th>
-                <th>Confirmados</th>
-                <th>Activos</th>
-                <th>Recuperados</th>
-                <th>Muertes</th>
+                <th scope="col"></th>
+                <th scope="col">Confirmados</th>
+                <th scope="col">Activos</th>
+                <th scope="col">Recuperados</th>
+                <th scope="col">Muertes</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <th>Total</th>
-                <th><%- data.confirmed[data.confirmed.length - 1] %></th>
-                <th><%- data.active[data.active.length - 1] %></th>
-                <th><%- data.recovered[data.recovered.length - 1] %></th>
-                <th><%- data.deaths[data.deaths.length - 1] %></th>
+                <th scope="row">Total</th>
+                <td><%- data.confirmed[data.confirmed.length - 1] %></th>
+                <td><%- data.active[data.active.length - 1] %></th>
+                <td><%- data.recovered[data.recovered.length - 1] %></th>
+                <td><%- data.deaths[data.deaths.length - 1] %></th>
             </tr>
             <tr>
-                <th><%- data.date[data.date.length - 1]%></th>
-                <th>+<%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
-                <th></th>
-                <th>+<%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
-                <th>+<%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
+                <th scope="row"><%- data.date[data.date.length - 1]%></th>
+                <td>+<%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
+                <td></th>
+                <td>+<%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
+                <td>+<%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
             </tr>
         </tbody>
     </table>
     
-    <canvas id="dailyChart" width="400" height="400"></canvas>
-    <canvas id="aggregatedChart" width="400" height="400"></canvas>
-    
+    <div class="row">
+        <div class="col-6">
+            <canvas id="dailyChart" width="100" height="100" ></canvas>
+        </div>
+        <div class="col-6">
+            <canvas id="aggregatedChart" width="100" height="100"></canvas>
+        </div>
+    </div>
 
     <script>
         var ctx = document.getElementById('aggregatedChart');
@@ -164,6 +169,5 @@
             }
         });
     </script>
-
 
 <%- include ('_footer') -%>
