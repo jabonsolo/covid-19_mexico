@@ -42,10 +42,49 @@
 
     <div class="row">
         <div class="col-md-6 col-sm-6">
-            <canvas id="dailyChart" width="100" height="100" ></canvas>
+            <canvas id="dailyChart" width="100" height="70" ></canvas>
         </div>
         <div class="col-md-6 col-sm-6">
-            <canvas id="aggregatedChart" width="100" height="100"></canvas>
+            <canvas id="aggregatedChart" width="100" height="70"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span><br></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span>
+                <h3>País por país: Como se compara la trayectoria del numero de casos.</h3>
+                <p>Comparación de México y los 10 países con mas casos confirmados.</p>
+            </span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 ">
+            <canvas id="top10Chart_confirmed" width="100" height="50"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span><br></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 ">
+            <canvas id="top10Chart_deaths" width="100" height="50"></canvas>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span><br></span>
         </div>
     </div>
 
@@ -178,6 +217,113 @@
                 }
             }
         });
+
+        var dynamicColors = function() {
+            var r = Math.floor(Math.random() * 255);
+            var g = Math.floor(Math.random() * 255);
+            var b = Math.floor(Math.random() * 255);
+            console.log("rgb(" + r + "," + g + "," + b + ")")
+            return "rgb(" + r + "," + g + "," + b + ")";
+         };
+
+        var arrayColors = [
+            "rgba(131,175,9)",
+            "rgba(142,220,248)",
+            "rgba(201,184,206)",
+            "rgba(26,170,210)",
+            "rgba(220,198,158)",
+            "rgba(158,170,84)",
+            "rgba(60,144,243)",
+            "rgba(131,142,151)",
+            "rgba(61,87,125)",
+            "rgba(93,152,118)",
+            "rgba(252,26,54)"
+        ]
+
+        var ctx3 = document.getElementById('top10Chart_confirmed');
+        var myChart = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: <%- JSON.stringify(top10Data.enumArrayConfirmed); %>,
+                datasets: [
+                <% for(key in top10Data.top10List) { %>
+                    {
+                        label: "<%- top10Data.top10List[key].country %>",
+                        fill: false,
+                        data: <%= JSON.stringify(top10Data.top10DataConfirmed[key].confirmed); %>,
+                        borderColor: arrayColors[<%- key %>],
+                        <% if(key == 10) { %>
+                            borderWidth: 3
+                        <% } else { %>
+                            borderWidth: 1
+                        <% } %> 
+                    },
+
+                    
+                <% } %>
+                ]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Numero acumulado de casos confirmados, por numero de días desde el caso numero 100.',
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
+            }
+        });
+
+        var ctx4 = document.getElementById('top10Chart_deaths');
+        var myChart = new Chart(ctx4, {
+            type: 'line',
+            data: {
+                labels: <%- JSON.stringify(top10Data.enumArrayDeaths); %>,
+                datasets: [
+                <% for(key in top10Data.top10List) { %>
+                    
+                    {
+                        label: "<%- top10Data.top10List[key].country %>",
+                        data: <%= JSON.stringify(top10Data.top10DataDeaths[key].deaths); %>,
+                        fill: false,
+                        borderColor: arrayColors[<%- key %>],
+                        <% if(key == 10) { %>
+                            borderWidth: 3
+                        <% } else { %>
+                            borderWidth: 1
+                        <% } %> 
+                    },
+                <% } %>
+                ]
+            },
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Numero acumulado de muertes, por numero de días desde la muerte numero 10.',
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: false
+                        }
+                    }]
+                }
+            }
+        });
+
+
     </script>
 
 <%- include ('_footer') -%>

@@ -31,16 +31,14 @@ async function getLinks_en() {
     return links
 }
 
-async function getTop10() {
-    let data = await getData();
-    let chart = {}
-
+async function getTop10(dataSet) {
     let topCountries = []
     let i = 0;
-    for (let key in data)
+
+    for (let key in dataSet)
     {
         let confirmed = Math.max.apply(Math, 
-            data[key].map( (o) => 
+            dataSet[key].map( (o) => 
             { 
                 return o.confirmed;
             }));
@@ -56,32 +54,79 @@ async function getTop10() {
         return b.confirmed - a.confirmed;
     })
 
-    console.log(topCountries.slice(0,10))
+    let confirmed =  Math.max.apply(Math, 
+        dataSet['Mexico'].map( (o) => 
+        { 
+            return o.confirmed;
+        }))    
+
+    topCountries = topCountries.slice(0,10)
+    
+    topCountries[10] = {
+        country: 'Mexico',
+        confirmed
+    }
+
+    return topCountries
 }
 
-async function getChart(country) {
-    let data = await getData();
+async function getDataTop10(dataSet) {
+    let top10List = await getTop10(dataSet)
+    let top10DataConfirmed = []
+    let top10DataDeaths = []
+    let arrayLengthConfirmed = []
+    let arrayLengthDeaths = []
+
+    for(key in top10List)
+    {
+        top10DataConfirmed[key] = await generateData(dataSet, top10List[key].country, 100, "confirmed");
+        top10DataDeaths[key] = await generateData(dataSet, top10List[key].country, 10, "deaths");
+        arrayLengthConfirmed[key] = top10DataConfirmed[key].confirmed.length;
+        arrayLengthDeaths[key] = top10DataDeaths[key].deaths.length;
+    }
+    let enumArrayConfirmed = Array.from(Array(Math.max(...arrayLengthConfirmed)).keys()) 
+    let enumArrayDeaths = Array.from(Array(Math.max(...arrayLengthDeaths)).keys()) 
+
+    return {
+        top10List,
+        top10DataConfirmed,
+        top10DataDeaths,
+        enumArrayConfirmed,
+        enumArrayDeaths
+    };
+}
+
+async function getChart(dataSet, country)
+{
     let chart = {}
 
-    if(data[country])
+    if(dataSet[country])
     {
-        return data[country]
+        return dataSet[country]
     } 
 
     return chart;
 }
 
-async function generateData() {
-    const data = await getChart('Mexico')
-    let chart = {}
+function getIndex(array, value)
+{
+    return array.findIndex(element => element > value);
+}
 
+async function generateData(dataSet, country, value, by) {
+    let chart = {}
+    let data = await getChart(dataSet, country)
 
     chart.date = data.map(({ date }) => date)
     chart.confirmed = data.map(({ confirmed }) => confirmed)
     chart.deaths = data.map(({ deaths }) => deaths)
     chart.recovered = data.map(({ recovered }) => recovered)
 
-    const index = chart.confirmed.findIndex(element => element == 1) -1;
+    let index = 0
+    if(by == "deaths")
+        index = getIndex(chart.deaths, value) ;
+    else
+        index = getIndex(chart.confirmed, value) ;
 
     chart.date = chart.date.slice(index);
     chart.confirmed = chart.confirmed.slice(index);
@@ -123,18 +168,17 @@ async function generateData() {
     return chart;
 }
 
-async function aggregate() {
+async function aggregate(dataSet) {
     const aggregated = {};
-    let data = await getData();
 
-    Object.keys(data).forEach(country => {
-        Object.keys(data[country]).forEach(date => {
+    Object.keys(dataSet).forEach(country => {
+        Object.keys(dataSet[country]).forEach(date => {
             if (!aggregated[date]) {
-                aggregated[date] = { ...data[country][date] }
+                aggregated[date] = { ...dataSet[country][date] }
             } else {
-                aggregated[date].confirmed += data[country][date].confirmed
-                aggregated[date].deaths += data[country][date].deaths
-                aggregated[date].recovered += data[country][date].recovered
+                aggregated[date].confirmed += dataSet[country][date].confirmed
+                aggregated[date].deaths += dataSet[country][date].deaths
+                aggregated[date].recovered += dataSet[country][date].recovered
               }
         });
     });
@@ -164,5 +208,6 @@ module.exports = {
     getTop10,
     getLinks_es,
     getLinks_en,
+    getDataTop10,
     data
 }

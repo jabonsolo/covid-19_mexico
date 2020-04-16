@@ -5,12 +5,13 @@ const utils = require('./controller/utils');
 var router = express.Router();
 
 router.get('/', async function(req,res){
-    const chart = await utils.generateData();
-   
-    await utils.getTop10()
+    const data = await utils.getData();
+    const chart = await utils.generateData(data, 'Mexico', 1);
+    const top10Data = await utils.getDataTop10(data)
 
     res.render('index',{
-        data: chart
+        data: chart,
+        top10Data
     });
 });
 
