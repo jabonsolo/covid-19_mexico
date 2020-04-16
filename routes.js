@@ -14,4 +14,19 @@ router.get('/', async function(req,res){
     });
 });
 
+router.get('/about', async function(req,res){
+    res.render('about',{
+    });
+});
+
+router.get('/more', async function(req,res){
+    const links_es = await utils.getLinks_es();
+    const links_en = await utils.getLinks_en();
+
+    res.render('more',{
+        links_es,
+        links_en
+    });
+});
+
 module.exports = router;

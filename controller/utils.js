@@ -19,6 +19,18 @@ async function getData() {
     return data
 }
 
+async function getLinks_es() {
+    const res = await fetch('https://raw.githubusercontent.com/jabonsolo/miscellaneous/master/files/covid-19_links_es.json');
+    const links = await res.json();
+    return links
+}
+
+async function getLinks_en() {
+    const res = await fetch('https://raw.githubusercontent.com/jabonsolo/miscellaneous/master/files/covid-19_links_en.json');
+    const links = await res.json();
+    return links
+}
+
 async function getTop10() {
     let data = await getData();
     let chart = {}
@@ -44,8 +56,6 @@ async function getTop10() {
         return b.confirmed - a.confirmed;
     })
 
-    
-      //topCountries = topCountries.slice(10)
     console.log(topCountries.slice(0,10))
 }
 
@@ -152,5 +162,7 @@ module.exports = {
     aggregate,
     generateData,
     getTop10,
+    getLinks_es,
+    getLinks_en,
     data
 }
