@@ -1,56 +1,52 @@
 <%- include ('_header') -%>
-
     <div class="row">
         <div class="col-12 ">
             <span><br></span>
         </div>
     </div>
-
     <div class="row">
-    <div class="col-md-1 col-sm-1 col-1">
-        <span><br></span>
-    </div>
+        <div class="col-md-1 col-sm-1 col-1">
+            <span><br></span>
+        </div>
 
-    <div class="col-md-10 col-sm-10 col-10">
-    <table class="table table-sm table-responsive-sm">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col"></th>
-                <th scope="col">Confirmados</th>
-                <th scope="col">Activos</th>
-                <th scope="col">Recuperados</th>
-                <th scope="col">Muertes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">Total</th>
-                <td><%- data.confirmed[data.confirmed.length - 1] %></th>
-                <td><%- data.active[data.active.length - 1] %></th>
-                <td><%- data.recovered[data.recovered.length - 1] %></th>
-                <td><%- data.deaths[data.deaths.length - 1] %></th>
-            </tr>
-            <tr>
-                <th scope="row"><%- data.date[data.date.length - 1]%></th>
-                <td>+<%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
-                <td></th>
-                <td>+<%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
-                <td>+<%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
-            </tr>
-        </tbody>
-    </table>
+        <div class="col-md-10 col-sm-10 col-10">
+            <table class="table table-sm table-responsive-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Confirmados</th>
+                        <th scope="col">Activos</th>
+                        <th scope="col">Recuperados</th>
+                        <th scope="col">Muertes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Total</th>
+                        <td><%- data.confirmed[data.confirmed.length - 1] %></th>
+                        <td><%- data.active[data.active.length - 1] %></th>
+                        <td><%- data.recovered[data.recovered.length - 1] %></th>
+                        <td><%- data.deaths[data.deaths.length - 1] %></th>
+                    </tr>
+                    <tr>
+                        <th scope="row"><%- data.date[data.date.length - 1]%></th>
+                        <td>+<%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
+                        <td></th>
+                        <td>+<%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
+                        <td>+<%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1 col-sm-1 col-1">
+            <span><br></span>
+        </div>
     </div>
-    <div class="col-md-1 col-sm-1 col-1">
-        <span><br></span>
-    </div>
-    </div>
-
     <div class="row">
         <div class="col-12 ">
             <span><br></span>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-6">
             <canvas id="dailyChart" width="100" height="70" ></canvas>
@@ -59,13 +55,11 @@
             <canvas id="aggregatedChart" width="100" height="70"></canvas>
         </div>
     </div>
-
     <div class="row">
         <div class="col-12 ">
             <span><br></span>
         </div>
     </div>
-
     <div class="row">
         <div class="col-12 ">
             <span>
@@ -74,271 +68,25 @@
             </span>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12 ">
             <canvas id="top10Chart_confirmed" width="100" height="60"></canvas>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xl-12 ">
             <span><br></span>
         </div>
     </div>
-
     <div class="row">
         <div class="col-md-12 ">
             <canvas id="top10Chart_deaths" width="100" height="60"></canvas>
         </div>
     </div>
-
     <div class="row">
         <div class="col-xl-12 ">
             <span><br></span>
         </div>
     </div>
-
-    <script>
-        var ctx = document.getElementById('aggregatedChart');
-        var myChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: <%- JSON.stringify(data.date); %>,
-                datasets: [{
-                    label: 'Confirmed',
-                    data: <%= JSON.stringify(data.confirmed); %>,
-                    backgroundColor: [
-                        'rgba(87, 146, 223, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(87, 146, 223, 1)',
-                    ],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Active',
-                    data: <%= JSON.stringify(data.active); %>,
-                    backgroundColor: [
-                        'rgba(170, 89, 242, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(170, 89, 242, 1)',
-                    ],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Recovered',
-                    data: <%= JSON.stringify(data.recovered); %>,
-                    backgroundColor: [
-                        'rgba(97, 179, 102, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(97, 179, 102, 1)',
-                    ],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Deaths',
-                    data: <%= JSON.stringify(data.deaths); %>,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                    ],
-                    borderWidth: 3
-                }
-                ]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Total de casos COVID-19 en México',
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        var ctx2 = document.getElementById('dailyChart');
-        var myChart = new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: <%- JSON.stringify(data.date); %>,
-                datasets: [{
-                    label: 'Confirmed',
-                    data: <%= JSON.stringify(data.confirmedDiff); %>,
-                    backgroundColor: [
-                        'rgba(87, 146, 223, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(87, 146, 223, 1)',
-                    ],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Recovered',
-                    data: <%= JSON.stringify(data.recoveredDiff); %>,
-                    backgroundColor: [
-                        'rgba(97, 179, 102, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(97, 179, 102, 1)',
-                    ],
-                    borderWidth: 3
-                },
-                {
-                    label: 'Deaths',
-                    data: <%= JSON.stringify(data.deathsDiff); %>,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                    ],
-                    borderWidth: 3
-                }
-                ]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Nuevos casos por día COVID-19 en México',
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
-
-        var dynamicColors = function() {
-            var r = Math.floor(Math.random() * 255);
-            var g = Math.floor(Math.random() * 255);
-            var b = Math.floor(Math.random() * 255);
-            console.log("rgb(" + r + "," + g + "," + b + ")")
-            return "rgb(" + r + "," + g + "," + b + ")";
-         };
-
-        var arrayColors = [
-            "rgba(131,175,9)",
-            "rgba(142,220,248)",
-            "rgba(201,184,206)",
-            "rgba(26,170,210)",
-            "rgba(220,198,158)",
-            "rgba(158,170,84)",
-            "rgba(60,144,243)",
-            "rgba(131,142,151)",
-            "rgba(61,87,125)",
-            "rgba(93,152,118)",
-            "rgba(252,26,54)"
-        ]
-
-        var ctx3 = document.getElementById('top10Chart_confirmed');
-        var myChart = new Chart(ctx3, {
-            type: 'line',
-            data: {
-                labels: <%- JSON.stringify(top10Data.enumArrayConfirmed); %>,
-                datasets: [
-                <% for(key in top10Data.top10List) { %>
-                    {
-                        label: "<%- top10Data.top10List[key].country %>",
-                        fill: false,
-                        data: <%= JSON.stringify(top10Data.top10DataConfirmed[key].confirmed); %>,
-                        borderColor: arrayColors[<%- key %>],
-                        <% if(key == 10) { %>
-                            borderWidth: 3
-                        <% } else { %>
-                            borderWidth: 1
-                        <% } %> 
-                    },
-
-                    
-                <% } %>
-                ]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Numero acumulado de casos confirmados, por numero de días desde el caso numero 100.',
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: false
-                        }
-                    }]
-                }
-            }
-        });
-
-        var ctx4 = document.getElementById('top10Chart_deaths');
-        var myChart = new Chart(ctx4, {
-            type: 'line',
-            data: {
-                labels: <%- JSON.stringify(top10Data.enumArrayDeaths); %>,
-                datasets: [
-                <% for(key in top10Data.top10List) { %>
-                    
-                    {
-                        label: "<%- top10Data.top10List[key].country %>",
-                        data: <%= JSON.stringify(top10Data.top10DataDeaths[key].deaths); %>,
-                        fill: false,
-                        borderColor: arrayColors[<%- key %>],
-                        <% if(key == 10) { %>
-                            borderWidth: 3
-                        <% } else { %>
-                            borderWidth: 1
-                        <% } %> 
-                    },
-                <% } %>
-                ]
-            },
-            options: {
-                responsive: true,
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Numero acumulado de muertes, por numero de días desde la muerte numero 10.',
-                },
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: false
-                        }
-                    }]
-                }
-            }
-        });
-
-        function myFunction() {
-            if (window.location.hostname != "mexicovid-19.herokuapp.com")
-                window.location = "https://mexicovid-19.herokuapp.com"
-        }
-
-    </script>
-
+<%- include ('_scripts_plots') -%>
 <%- include ('_footer') -%>

@@ -1,8 +1,5 @@
 <%- include ('_header') -%>
-    <h1>
-        Mas
-    </h1>
-
+    <br>
     <ul class="list-group">
         <li class="list-group-item list-group-item-dark">Informacion sobre el COVID-19 en español.</li>
         <% links_es.forEach((link) => { %>
@@ -10,19 +7,15 @@
                 <a href=<%= link.link %> > <%= link.desc %> </a>
             </li> 
         <% }) %>
-      </ul>
-
-      <br>
-
-      <ul class="list-group">
+    </ul>
+    <br>
+    <ul class="list-group">
         <li class="list-group-item list-group-item-dark">Informacion sobre el COVID-19 en ingles.</li>
         <% links_en.forEach((link) => { %>
             <li class="list-group-item">
                 <a href=<%= link.link %> > <%= link.desc %> </a>
             </li>    
         <% }) %>
-      </ul>
-
-      <br>
-      
+    </ul>
+    <br>
 <%- include ('_footer') -%>
