@@ -23,17 +23,17 @@
                 <tbody>
                     <tr>
                         <th scope="row">Total</th>
-                        <td><%- data.confirmed[data.confirmed.length - 1] %></th>
-                        <td><%- data.active[data.active.length - 1] %></th>
-                        <td><%- data.recovered[data.recovered.length - 1] %></th>
-                        <td><%- data.deaths[data.deaths.length - 1] %></th>
+                        <td class="text-center"><%- data.confirmed[data.confirmed.length - 1] %></th>
+                        <td class="text-center"><%- data.active[data.active.length - 1] %></th>
+                        <td class="text-center"><%- data.recovered[data.recovered.length - 1] %></th>
+                        <td class="text-center"><%- data.deaths[data.deaths.length - 1] %></th>
                     </tr>
                     <tr>
                         <th scope="row"><%- data.date[data.date.length - 1]%></th>
-                        <td>+<%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
-                        <td></th>
-                        <td>+<%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
-                        <td>+<%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
+                        <td class="text-center">+<%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
+                        <td class="text-center"></th>
+                        <td class="text-center">+<%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
+                        <td class="text-center">+<%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
                     </tr>
                 </tbody>
             </table>
@@ -128,19 +128,19 @@
                 <tbody>
                     <tr>
                         <th scope="row">Confirmados</th>
-                        <td><%- aggregated.confirmed[aggregated.confirmed.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.confirmed[aggregated.confirmed.length - 1] %></th>
                     </tr>
                     <tr>
                         <th scope="row">Activos</th>
-                        <td><%- aggregated.active[aggregated.active.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.active[aggregated.active.length - 1] %></th>
                     </tr>
                     <tr>
                         <th scope="row">Recuoerados</th>
-                        <td><%- aggregated.recovered[aggregated.recovered.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.recovered[aggregated.recovered.length - 1] %></th>
                     </tr>
                     <tr>
                         <th scope="row">Muertes</th>
-                        <td><%- aggregated.deaths[aggregated.deaths.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.deaths[aggregated.deaths.length - 1] %></th>
                     </tr>
                 </tbody>
             </table>
