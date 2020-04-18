@@ -164,6 +164,15 @@
             <span><br></span>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12 ">
+            <span>
+                <h3>Tabla casos por país.</h3>
+                <input class="form-control" id="myInput" type="text" placeholder="Buscar...">
+                <br>
+            </span>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12 col-sm-6">
@@ -179,7 +188,7 @@
                         <th scope="col">Casos<br/>Activos</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
                     <% for(key in table) { %>
                     <tr>                        
                         <% var index = table[key].length -1; %>
@@ -206,6 +215,17 @@
             </table>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function(){
+          $("#myInput").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+    </script>
 
     <div class="row">
         <div class="col-xl-12 ">
