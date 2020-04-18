@@ -13,7 +13,8 @@ router.get('/', async function(req,res){
     res.render('index',{
         data: chart,
         top10Data,
-        aggregated
+        aggregated,
+        table: data
     });
 });
 
