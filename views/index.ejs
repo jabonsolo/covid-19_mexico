@@ -98,5 +98,79 @@
             <span><br></span>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 ">
+            <canvas id="top10Chart_dailyActives" width="100" height="60"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span><br></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 ">
+            <span>
+                <h3>COVID-19 en el mundo.</h3>
+                <p>Total de casos confirmados de COVID-19 a nivel mundial..</p>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <table class="table table-sm table-responsive-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Confirmados</th>
+                        <td><%- aggregated.confirmed[aggregated.confirmed.length - 1] %></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Activos</th>
+                        <td><%- aggregated.active[aggregated.active.length - 1] %></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Recuoerados</th>
+                        <td><%- aggregated.recovered[aggregated.recovered.length - 1] %></th>
+                    </tr>
+                    <tr>
+                        <th scope="row">Muertes</th>
+                        <td><%- aggregated.deaths[aggregated.deaths.length - 1] %></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <canvas id="pie-chart-2" width="800" height="350"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span><br></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 ">
+            <canvas id="chartTotal" width="100" height="60"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span><br></span>
+        </div>
+    </div>
+
+    
+
+    <div class="row">
+        <div class="col-xl-12 ">
+            <span><br></span>
+        </div>
+    </div>
 <%- include ('_scripts_plots') -%>
 <%- include ('_footer') -%>

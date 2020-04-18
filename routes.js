@@ -7,11 +7,13 @@ var router = express.Router();
 router.get('/', async function(req,res){
     const data = await utils.getData();
     const chart = await utils.generateData(data, 'Mexico', 1);
-    const top10Data = await utils.getDataTop10(data)
+    const top10Data = await utils.getDataTop10(data);
+    const aggregated = await utils.getTotal(data);
 
     res.render('index',{
         data: chart,
-        top10Data
+        top10Data,
+        aggregated
     });
 });
 

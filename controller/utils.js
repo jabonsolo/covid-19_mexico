@@ -168,7 +168,7 @@ async function generateData(dataSet, country, value, by) {
     return chart;
 }
 
-async function aggregate(dataSet) {
+async function getAggregated(dataSet) {
     const aggregated = {};
 
     Object.keys(dataSet).forEach(country => {
@@ -188,26 +188,57 @@ async function aggregate(dataSet) {
     });
 }
 
-async function main() {
-    //const data1 = await getData();
-    //const data2 = await aggregate()
-    //console.log(data1);
-    //console.log(data2)
-    //const data3 = data1['Mexico']
-    //console.log(data3)
+async function getTotal(dataSet) {
+    const agregated = await getAggregated(dataSet);
+    let chart = {}
+    chart.date = agregated.map(({ date }) => date)
+    chart.confirmed = agregated.map(({ confirmed }) => confirmed)
+    chart.deaths = agregated.map(({ deaths }) => deaths)
+    chart.recovered = agregated.map(({ recovered }) => recovered)
+    
+    chart.active = []
+    chart.confirmedDiff = []
+    chart.recoveredDiff = []
+    chart.deathsDiff = []
 
+    for (let key in chart.confirmed) {
+        chart.active[key] = chart.confirmed[key] - chart.deaths[key] - chart.recovered[key]
+        if(key == 0)
+            {
+                chart.confirmedDiff[key] = 0
+                chart.recoveredDiff[key] = 0
+                chart.deathsDiff[key] = 0
+            }
+            else{
+                if(chart.confirmed[key] - chart.confirmed[key-1] < 0)
+                    chart.confirmedDiff[key] = 0;
+                else
+                    chart.confirmedDiff[key] = chart.confirmed[key] - chart.confirmed[key-1];
+                
+                if(chart.recovered[key] - chart.recovered[key-1] < 0)
+                    chart.recoveredDiff[key] = 0;
+                else
+                    chart.recoveredDiff[key] = chart.recovered[key] - chart.recovered[key-1];
+
+                if(chart.deaths[key] - chart.deaths[key-1] < 0)
+                    chart.deathsDiff[key] = 0;
+                else
+                    chart.deathsDiff[key] = chart.deaths[key] - chart.deaths[key-1];
+            }
+    }
+
+    return chart;
 }
-
-// main()
 
 module.exports = {
     getData,
     getChart,
-    aggregate,
+    getAggregated,
     generateData,
     getTop10,
     getLinks_es,
     getLinks_en,
     getDataTop10,
+    getTotal,
     data
 }
