@@ -195,17 +195,17 @@
                         <% if(key == 'Mexico') {%>
                             <th class=<%- "table-primary" %> scope="row"> <%- key %> </th>
                             <td class=<%- "table-primary" %>> <%- table[key][index]['confirmed'] %></th>
-                            <td class="table-warning"><%- table[key][index]['confirmed'] - table[key][index-1]['confirmed'] %></th>
+                            <td class="table-warning">+<%- table[key][index]['confirmed'] - table[key][index-1]['confirmed'] %></th>
                             <td class=<%- "table-primary" %>><%- table[key][index]['deaths'] %></th>
-                            <td class="table-danger"><%- table[key][index]['deaths'] - table[key][index-1]['deaths'] %></th>
+                            <td class="table-danger">+<%- table[key][index]['deaths'] - table[key][index-1]['deaths'] %></th>
                             <td class=<%- "table-primary" %>> <%- table[key][index]['recovered'] %></th>
                             <td class=<%- "table-primary" %>> <%- table[key][index]['confirmed'] - table[key][index]['recovered'] - table[key][index]['deaths'] %></th>
                         <% } else {%>
                             <th scope="row"> <%- key %> </th>
                             <td><%- table[key][index]['confirmed'] %></th>
-                            <td class="table-warning"><%- table[key][index]['confirmed'] - table[key][index-1]['confirmed'] %></th>
+                            <td class="table-warning">+<%- table[key][index]['confirmed'] - table[key][index-1]['confirmed'] %></th>
                             <td><%- table[key][index]['deaths'] %></th>
-                            <td class="table-danger"><%- table[key][index]['deaths'] - table[key][index-1]['deaths'] %></th>
+                            <td class="table-danger">+<%- table[key][index]['deaths'] - table[key][index-1]['deaths'] %></th>
                             <td><%- table[key][index]['recovered'] %></th>
                             <td><%- table[key][index]['confirmed'] - table[key][index]['recovered'] - table[key][index]['deaths'] %></th>
                         <% } %>
