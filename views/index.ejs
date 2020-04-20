@@ -51,8 +51,8 @@
         <div class="col-md-6">
             <canvas id="dailyChart" width="100" height="70" ></canvas>
         </div>
-        <div class="col-md-6">
-            <canvas id="aggregatedChart" width="100" height="70"></canvas>
+        <div class="col-md-6 ">
+            <canvas id="pie-chart" width="800" height="350"></canvas>
         </div>
     </div>
     <div class="row">
@@ -62,12 +62,53 @@
     </div>
     <div class="row">
         <div class="col-md-6">
+            <canvas id="aggregatedChart" width="100" height="70"></canvas>
+        </div>
+        <div class="col-md-6">
             <canvas id="aggregatedChart2" width="100" height="70" ></canvas>
         </div>
-        <div class="col-md-6 ">
-            <canvas id="pie-chart" width="800" height="350"></canvas>
+    </div>
+
+    <div class="row">
+        <div class="col-12 ">
+            <span><br></span>
         </div>
     </div>
+
+
+    <div class="row">
+        <div class="col-12 ">
+            <span>
+                <h3>Tabla casos por estado.</h3>
+                <input class="form-control" id="myInputbyState" type="text" placeholder="Buscar...">
+                <br>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-sm-6">
+            <table class="table table-sm table-striped table-responsive-sm">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Casos</th>
+                        <th scope="col">Muertes</th>
+                    </tr>
+                </thead>
+                <tbody id="myTablebyState">
+                    <% for(key in databyState) { %>
+                    <% if (key != 'ESTADOS UNIDOS MEXICANOS') { %>
+                    <tr>                        
+                        <th scope="row"> <%- key %> </th>
+                        <td> <%- databyState[key]['confirmed'] %> </th>
+                        <td> <%- databyState[key]['deaths'] %> </th>
+                    </tr>
+                    <% }} %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12 ">
             <span><br></span>
@@ -236,6 +277,15 @@
           $("#myInput").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#myTable tr").filter(function() {
+              $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+          });
+        });
+
+        $(document).ready(function(){
+          $("#myInputbyState").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#myTablebyState tr").filter(function() {
               $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
           });

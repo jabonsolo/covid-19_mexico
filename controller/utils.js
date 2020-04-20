@@ -4,6 +4,13 @@ const http = require('http');
 
 let data = {}
 
+async function getStatsMexico()
+{
+    const res = await fetch('https://raw.githubusercontent.com/jabonsolo/miscellaneous/master/mexico_stats_by_state.json');
+    const mexico_data = await res.json();
+    return mexico_data
+}
+
 async function onRequest(request, response) {
     response.writeHead(200, {'Content-Type': 'text/plain'})
     response.write('Hello World');
@@ -240,5 +247,6 @@ module.exports = {
     getLinks_en,
     getDataTop10,
     getTotal,
+    getStatsMexico,
     data
 }

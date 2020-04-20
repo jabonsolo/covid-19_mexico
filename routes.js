@@ -9,12 +9,14 @@ router.get('/', async function(req,res){
     const chart = await utils.generateData(data, 'Mexico', 1);
     const top10Data = await utils.getDataTop10(data);
     const aggregated = await utils.getTotal(data);
+    const databyState = await utils.getStatsMexico();
 
     res.render('index',{
         data: chart,
         top10Data,
         aggregated,
-        table: data
+        table: data,
+        databyState
     });
 });
 
