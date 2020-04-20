@@ -74,6 +74,87 @@
         }
     });
 
+    // Plot to aggregated Chart
+    var ctx = document.getElementById('aggregatedChart2');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <%- JSON.stringify(data.date); %>,
+            datasets: [{
+                label: 'Confirmados',
+                data: <%= JSON.stringify(data.confirmed); %>,
+                backgroundColor: [
+                    'rgba(87, 146, 223, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(87, 146, 223, 1)',
+                ],
+                borderWidth: 3
+            },
+            {
+                label: 'Activos',
+                data: <%= JSON.stringify(data.active); %>,
+                backgroundColor: [
+                    'rgba(170, 89, 242, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(170, 89, 242, 1)',
+                ],
+                borderWidth: 3
+            },
+            {
+                label: 'Recuperados',
+                data: <%= JSON.stringify(data.recovered); %>,
+                backgroundColor: [
+                    'rgba(97, 179, 102, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(97, 179, 102, 1)',
+                ],
+                borderWidth: 3
+            },
+            {
+                label: 'Muertes',
+                data: <%= JSON.stringify(data.deaths); %>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                ],
+                borderWidth: 3
+            }
+        ]},
+        options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Escala logaritmica. Total de casos COVID-19 en México',
+            },
+            scales: {
+                yAxes: [{
+                    type: 'logarithmic',
+                    ticks: {
+                        min: 0,
+                        max: <%= JSON.stringify(data.confirmed[data.confirmed.length -1] + 10000); %>,
+                        callback: function(tick, index, ticks) {
+                            //return tick.toLocaleString()
+                            return tick.toString()
+                        }
+                    }
+                }]
+            }
+        }
+    });
+
     //Plot to daily chart
     var ctx2 = document.getElementById('dailyChart');
     var myChart = new Chart(ctx2, {
@@ -154,8 +235,8 @@
     ]
 
     //Plot comparative chart confirmed cases
-    var ctx3 = document.getElementById('top10Chart_confirmed');
-    var myChart = new Chart(ctx3, {
+    var comparativeConfirmed = document.getElementById('top10Chart_confirmed');
+    var myChart = new Chart(comparativeConfirmed, {
         type: 'line',
         data: {
             labels: <%- JSON.stringify(top10Data.enumArrayConfirmed); %>,
@@ -192,6 +273,7 @@
             scales: {
                 yAxes: [{
                     ticks: {
+                        
                         beginAtZero: false
                     }
                 }]
@@ -199,9 +281,60 @@
         }
     });
 
+    var comparativeConfirmedLog = document.getElementById('top10Chart_confirmedLog');
+    var myChart = new Chart(comparativeConfirmedLog, {
+        type: 'line',
+        data: {
+            labels: <%- JSON.stringify(top10Data.enumArrayConfirmed); %>,
+            datasets: [
+                <% for(key in top10Data.top10List) { %>
+                {
+                    label: "<%- top10Data.top10List[key].country %>",
+                    fill: false,
+                    data: <%= JSON.stringify(top10Data.top10DataConfirmed[key].confirmed); %>,
+                    borderColor: arrayColors[<%- key %>],
+                    <% if(key == 10) { %>
+                        borderWidth: 3
+                    <% } else { %>
+                        borderWidth: 1
+                    <% } %> 
+                },
+                <% } %>
+            ]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Escala logaritmica. Numero acumulado de casos confirmados por numero de días desde el caso numero 100.',
+            },
+            scales: {
+                yAxes: [{
+                    type: 'logarithmic',
+                    ticks: {
+                        min: 0,
+                        max: <%= JSON.stringify(top10Data.top10DataConfirmed[0].confirmed[top10Data.top10DataConfirmed[0].confirmed.length -1] + 100000); %>,
+                        callback: function(tick, index, ticks) {
+                            //return tick.toLocaleString()
+                            return tick.toString()
+                        }
+                    }
+                }]
+            }
+        }
+    });
+
     //Plot comparative chart deaths
-    var ctx4 = document.getElementById('top10Chart_deaths');
-    var myChart = new Chart(ctx4, {
+    var comparativeDeaths = document.getElementById('top10Chart_deaths');
+    var myChart = new Chart(comparativeDeaths, {
         type: 'line',
         data: {
             labels: <%- JSON.stringify(top10Data.enumArrayDeaths); %>,
@@ -245,9 +378,60 @@
         }
     });
 
+    var comparativeDeathsLog = document.getElementById('top10Chart_deathsLog');
+    var myChart = new Chart(comparativeDeathsLog, {
+        type: 'line',
+        data: {
+            labels: <%- JSON.stringify(top10Data.enumArrayDeaths); %>,
+            datasets: [
+                <% for(key in top10Data.top10List) { %>
+                {
+                    label: "<%- top10Data.top10List[key].country %>",
+                    data: <%= JSON.stringify(top10Data.top10DataDeaths[key].deaths); %>,
+                    fill: false,
+                    borderColor: arrayColors[<%- key %>],
+                    <% if(key == 10) { %>
+                        borderWidth: 3
+                    <% } else { %>
+                        borderWidth: 1
+                    <% } %> 
+                },
+                <% } %>
+            ]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Escala logaritmica. Numero acumulado de muertes por numero de días desde la muerte numero 10.',
+            },
+            scales: {
+                yAxes: [{                
+                    type: 'logarithmic',
+                    ticks: {
+                        min: 0,
+                        max: <%= JSON.stringify(top10Data.top10DataDeaths[0].deaths[top10Data.top10DataDeaths[0].deaths.length -1] + 10000); %>,
+                        callback: function(tick, index, ticks) {
+                            //return tick.toLocaleString()
+                            return tick.toString()
+                        }
+                    }
+                }]
+            }
+        }
+    });
+
     //Plot daily comparative chart active cases
-    var ctx7 = document.getElementById('top10Chart_dailyActives');
-    var myChart = new Chart(ctx7, {
+    var comparativeActive = document.getElementById('top10Chart_dailyActives');
+    var myChart = new Chart(comparativeActive, {
         type: 'line',
         data: {
             labels: <%- JSON.stringify(top10Data.enumArrayDeaths); %>,
@@ -285,6 +469,57 @@
                 yAxes: [{
                     ticks: {
                         beginAtZero: false
+                    }
+                }]
+            }
+        }
+    });
+
+    var comparativeActiveLog = document.getElementById('top10Chart_dailyActivesLog');
+    var myChart = new Chart(comparativeActiveLog, {
+        type: 'line',
+        data: {
+            labels: <%- JSON.stringify(top10Data.enumArrayDeaths); %>,
+            datasets: [
+                <% for(key in top10Data.top10List) { %>
+                {
+                    label: "<%- top10Data.top10List[key].country %>",
+                    data: <%= JSON.stringify(top10Data.top10DataConfirmed[key].active); %>,
+                    fill: false,
+                    borderColor: arrayColors[<%- key %>],
+                    <% if(key == 10) { %>
+                        borderWidth: 3
+                    <% } else { %>
+                        borderWidth: 1
+                    <% } %> 
+                },
+                <% } %>
+            ]
+        },
+        options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Escala logaritmica. Numero casos activos por numero de días desde el caso numero 100.',
+            },
+            scales: {
+                yAxes: [{                
+                    type: 'logarithmic',
+                    ticks: {
+                        min: 0,
+                        max: <%= JSON.stringify(top10Data.top10DataConfirmed[0].active[top10Data.top10DataConfirmed[0].active.length -1] + 100000); %>,
+                        callback: function(tick, index, ticks) {
+                            //return tick.toLocaleString()
+                            return tick.toString()
+                        }
                     }
                 }]
             }
@@ -360,6 +595,87 @@
                 yAxes: [{
                     ticks: {
                         beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+    // Plot total
+    var chartTotalLog = document.getElementById('chartTotalLog');
+    var myChart = new Chart(chartTotalLog, {
+        type: 'line',
+        data: {
+            labels: <%- JSON.stringify(aggregated.date); %>,
+            datasets: [{
+                label: 'Confirmados',
+                data: <%= JSON.stringify(aggregated.confirmed); %>,
+                backgroundColor: [
+                    'rgba(87, 146, 223, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(87, 146, 223, 1)',
+                ],
+                borderWidth: 3
+            },
+            {
+                label: 'Activos',
+                data: <%= JSON.stringify(aggregated.active); %>,
+                backgroundColor: [
+                    'rgba(170, 89, 242, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(170, 89, 242, 1)',
+                ],
+                borderWidth: 3
+            },
+            {
+                label: 'Recuperados',
+                data: <%= JSON.stringify(aggregated.recovered); %>,
+                backgroundColor: [
+                    'rgba(97, 179, 102, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(97, 179, 102, 1)',
+                ],
+                borderWidth: 3
+            },
+            {
+                label: 'Muertes',
+                data: <%= JSON.stringify(aggregated.deaths); %>,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                ],
+                borderWidth: 3
+            }
+        ]},
+        options: {
+            plugins: {
+                datalabels: {
+                    display: false
+                }
+            },
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Escala logaritmica. Total de casos COVID-19 en el mundo.',
+            },
+            scales:{
+                yAxes: [{                
+                    type: 'logarithmic',
+                    ticks: {
+                        min: 0,
+                        max: <%= JSON.stringify(aggregated.confirmed[aggregated.confirmed.length -1] + 100000); %>,
+                        callback: function(tick, index, ticks) {
+                            //return tick.toLocaleString()
+                            return tick.toString()
+                        }
                     }
                 }]
             }
