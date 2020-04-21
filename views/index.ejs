@@ -23,17 +23,17 @@
                 <tbody>
                     <tr>
                         <th scope="row">Total</th>
-                        <td class="text-center"><%- data.confirmed[data.confirmed.length - 1] %></th>
-                        <td class="text-center"><%- data.active[data.active.length - 1] %></th>
-                        <td class="text-center"><%- data.recovered[data.recovered.length - 1] %></th>
-                        <td class="text-center"><%- data.deaths[data.deaths.length - 1] %></th>
+                        <td class="text-center"><%- data.confirmed[data.confirmed.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                        <td class="text-center"><%- data.active[data.active.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                        <td class="text-center"><%- data.recovered[data.recovered.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                        <td class="text-center"><%- data.deaths[data.deaths.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                     </tr>
                     <tr>
                         <th scope="row"><%- data.date[data.date.length - 1]%></th>
-                        <td class="text-center">+<%- data.confirmedDiff[data.confirmedDiff.length - 1]%></th>
+                        <td class="text-center">+<%- data.confirmedDiff[data.confirmedDiff.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")%></th>
                         <td class="text-center"></th>
-                        <td class="text-center">+<%- data.recoveredDiff[data.recoveredDiff.length - 1] %></th>
-                        <td class="text-center">+<%- data.deathsDiff[data.deathsDiff.length - 1] %></th>
+                        <td class="text-center">+<%- data.recoveredDiff[data.recoveredDiff.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                        <td class="text-center">+<%- data.deathsDiff[data.deathsDiff.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                     </tr>
                 </tbody>
             </table>
@@ -100,8 +100,8 @@
                     <% if (key != 'ESTADOS UNIDOS MEXICANOS') { %>
                     <tr>                        
                         <th scope="row"> <%- key %> </th>
-                        <td> <%- databyState[key]['confirmed'] %> </th>
-                        <td> <%- databyState[key]['deaths'] %> </th>
+                        <td> <%- databyState[key]['confirmed'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> </th>
+                        <td> <%- databyState[key]['deaths'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %> </th>
                     </tr>
                     <% }} %>
                 </tbody>
@@ -181,19 +181,19 @@
                 <tbody>
                     <tr>
                         <th scope="row">Confirmados</th>
-                        <td class="text-center"><%- aggregated.confirmed[aggregated.confirmed.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.confirmed[aggregated.confirmed.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                     </tr>
                     <tr>
                         <th scope="row">Activos</th>
-                        <td class="text-center"><%- aggregated.active[aggregated.active.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.active[aggregated.active.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                     </tr>
                     <tr>
                         <th scope="row">Recuperados</th>
-                        <td class="text-center"><%- aggregated.recovered[aggregated.recovered.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.recovered[aggregated.recovered.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                     </tr>
                     <tr>
                         <th scope="row">Muertes</th>
-                        <td class="text-center"><%- aggregated.deaths[aggregated.deaths.length - 1] %></th>
+                        <td class="text-center"><%- aggregated.deaths[aggregated.deaths.length - 1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                     </tr>
                 </tbody>
             </table>
@@ -250,20 +250,20 @@
                         <% var index = table[key].length -1; %>
                         <% if(key == 'Mexico') {%>
                             <th class=<%- "table-primary" %> scope="row"> <%- key %> </th>
-                            <td class=<%- "table-primary" %>> <%- table[key][index]['confirmed'] %></th>
-                            <td class="table-warning">+<%- table[key][index]['confirmed'] - table[key][index-1]['confirmed'] %></th>
-                            <td class=<%- "table-primary" %>><%- table[key][index]['deaths'] %></th>
-                            <td class="table-danger">+<%- table[key][index]['deaths'] - table[key][index-1]['deaths'] %></th>
-                            <td class=<%- "table-primary" %>> <%- table[key][index]['recovered'] %></th>
-                            <td class=<%- "table-primary" %>> <%- table[key][index]['confirmed'] - table[key][index]['recovered'] - table[key][index]['deaths'] %></th>
+                            <td class=<%- "table-primary" %>> <%- table[key][index]['confirmed'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td class="table-warning">+<%- (table[key][index]['confirmed'] - table[key][index-1]['confirmed']).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td class=<%- "table-primary" %>><%- table[key][index]['deaths'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td class="table-danger">+<%- (table[key][index]['deaths'] - table[key][index-1]['deaths']).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td class=<%- "table-primary" %>> <%- table[key][index]['recovered'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td class=<%- "table-primary" %>> <%- (table[key][index]['confirmed'] - table[key][index]['recovered'] - table[key][index]['deaths']).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                         <% } else {%>
                             <th scope="row"> <%- key %> </th>
-                            <td><%- table[key][index]['confirmed'] %></th>
-                            <td class="table-warning">+<%- table[key][index]['confirmed'] - table[key][index-1]['confirmed'] %></th>
-                            <td><%- table[key][index]['deaths'] %></th>
-                            <td class="table-danger">+<%- table[key][index]['deaths'] - table[key][index-1]['deaths'] %></th>
-                            <td><%- table[key][index]['recovered'] %></th>
-                            <td><%- table[key][index]['confirmed'] - table[key][index]['recovered'] - table[key][index]['deaths'] %></th>
+                            <td><%- table[key][index]['confirmed'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td class="table-warning">+<%- (table[key][index]['confirmed'] - table[key][index-1]['confirmed']).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td><%- table[key][index]['deaths'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td class="table-danger">+<%- (table[key][index]['deaths'] - table[key][index-1]['deaths']).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td><%- table[key][index]['recovered'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
+                            <td><%- (table[key][index]['confirmed'] - table[key][index]['recovered'] - table[key][index]['deaths']).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") %></th>
                         <% } %>
                     </tr>
                     <% } %>
