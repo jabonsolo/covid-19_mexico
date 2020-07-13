@@ -50,10 +50,13 @@ async function getTop10(dataSet) {
                 return o.confirmed;
             }));
 
-        topCountries[i] = {
-            country: key,
-            confirmed
-        };
+        if(key != "Mexico") {
+            topCountries[i] = {
+                country: key,
+                confirmed
+            };
+        }
+        
         i+=1;
     }
     
